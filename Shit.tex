@@ -1,0 +1,83 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Shit}
+\author{Kevin and Eric }
+\date{December 2016}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{mathtools}
+
+\begin{document}
+
+\maketitle
+
+\section{Motivation}
+Make some stuff that plans out your runs 
+
+
+\section{Basic Gist}
+Application has 4 things: Input, Output, Software, and Memory\\
+\indent \textbf{Input} - Application takes two types of input:
+\begin{itemize}
+\item Initial Input 
+\item Daily Input
+\end{itemize}
+\indent Initial Input as of right now I'm thinking should be Target Distance and time for Respective Distance, and Current Fitness Level. I don't know exactly how to quantify Current Fitness Level \\
+Daily Input is going to be things like :
+\begin{itemize}
+\item Completion - Finished the given run or not
+\item Time taken - How long taken
+\item Difficulty - Did you think it was too hard
+\end{itemize}
+Perhaps Difficulty and Completion are redundant? Idk\\
+\indent \textbf{Output} - Is a series of run over a week.\\
+\indent \textbf{Memory} - Not sure whether should keep daily run data. But definitely should keep a list of heuristics that Software uses and manipulates
+\indent \textbf{Software} Takes in input, compares it with heuristics, modifies heuristics, and outputs.\\
+\indent \textbf{Note:} There's a calculator online that would probably help determine whether a goal is reached, without having the person actually having to run the goal distance. What it does is it takes the time and distance run and can extrapolate the expected times for other distances. I think this would be useful if their goals was a certain marathon time, because you shouldn't run a marathon to train for a marathon, or so I've heard
+\section{Abstract}
+\textbf{Model} - Based on what I've gleaned from a couple of quick google searches, a person can be characterized by 3 variables on a distance vs race-pace curve. \\
+These four variables are:
+\begin{itemize}
+    \item Base Pace (BP) - How fast a person can run, period. Gated solely by muscle strength.
+    \item Anaerobic Boundary (AB) - The max distance that a person can run anaerobically. 
+    \item Fatigue Constant (F) - What it sounds like explanation later
+\end{itemize}
+With these four variables, Race Pace (RP) can be modeled as a piecewise function distance (D) which looks like this:
+\abovedisplayskip=0pt\relax
+\[
+RP  =
+\begin{cases}
+BP & \text{if } D>0  \text{ and }  D < AB\\
+BPe^{F(D - AB)} & \text{if } D>=AB\\
+\end{cases}
+\]
+I could be completely wrong, but I think this looks ok.\\
+I also think that perhaps the Anaerobic Boundary is generally the same for every person so that would be good. \\
+So the goal of this application is to then make it so that the person's goal (pace, distance) coordinate is on this function curve.\\
+\textbf{Challenges} - I think there are two main challenges:\\
+\indent \textbf{1. }How do we find these 3 variables?\\
+\indent \textbf{2. }How do we know how to alter these 3 variables?\\
+Getting the initial BP, AP, and F is easy. We can just ask them three things:
+\begin{itemize}
+\item How long can you sprint for? - corresponds to AP
+\item How fast can you sprint at that distance - corresponds to BP
+\item How fast can you run for? - Will allow us to calculate the Fatigue Constant
+\end{itemize}
+It will be a challenge to compute these values over a week of training, since we cannot just take the data, plot it and best fit it. I think two other factors influence pace over training, which is \textit{effort}, and \textit{accumulated fatigue} from previous runs. 
+
+\section{Memory}
+Stores things that will be used and manipulated by Software\\
+\indent \textbf{Heuristics} - Constants used by Software to determine output.
+\begin{itemize}
+\item Improvement Index - A positive value indicates ability to increase in mileage
+\end{itemize}
+\section{Software}
+Finds out the heuristics\\
+Determines the amount of mileage, amount of days, and distribution of runs for the week.
+
+
+
+
+\end{document}
